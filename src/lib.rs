@@ -10,7 +10,6 @@ pub use words::DEFAULT_WORD_LIST;
 #[non_exhaustive]
 pub enum Error {
     TooFewInputBytes { input: usize, requested: usize },
-
     WordIndexOutOfRange { index: u8 },
 }
 

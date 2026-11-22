@@ -1,10 +1,24 @@
 [package]
-name = "humanhash-rs"
+name = "humanhash"
 version = "0.1.0"
 edition = "2024"
 description = "Human-readable digests (port of humanhashgo)"
 license = "MIT"
 
 [dependencies]
+# clap = "4.6.9"
+clap = { version = "4", features = ["derive"], optional = true }
 # uuid = "1.29.3"
 uuid = { version = "1", features = ["v4", "v7"] }
+
+[[bin]]
+name = "humanize"
+path = "src/main.rs"
+required-features = ["cli"]
+
+[features]
+cli = ["dep:clap"]
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
