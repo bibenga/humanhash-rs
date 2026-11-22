@@ -97,7 +97,6 @@ impl<'a> HumanHasher<'a> {
             });
         }
 
-        // words >= 1 и words <= data.len(), значит seg_size >= 1.
         let seg_size = data.len() / words;
         let mut checksums = vec![0u8; words];
         for (i, &byte) in data.iter().enumerate() {
