@@ -21,4 +21,4 @@ cli = ["dep:clap"]
 
 [lints.rust]
 unsafe_code = "forbid"
-missing_docs = "warn"
+# missing_docs = "warn"
