@@ -1,8 +1,7 @@
+use clap::{Parser, ValueEnum};
 use std::error::Error;
 use std::process::ExitCode;
-
-use clap::{Parser, ValueEnum};
-use humanhash::Uuid;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
 enum Format {
