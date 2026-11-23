@@ -1,8 +1,10 @@
 mod words;
 
+#[cfg(test)]
+mod tests;
+
 use std::fmt;
 use std::num::NonZeroUsize;
-
 pub use uuid::Uuid;
 pub use words::DEFAULT_WORD_LIST;
 
