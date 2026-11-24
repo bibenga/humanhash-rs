@@ -49,7 +49,6 @@ pub struct HumanHasher<'a> {
 
 impl<'a> HumanHasher<'a> {
     #[inline]
-    #[must_use]
     pub const fn new(
         wordlist: &'a [&'a str],
         words: usize,
