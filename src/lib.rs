@@ -34,25 +34,25 @@ impl std::error::Error for Error {}
 
 pub const DEFAULT_WORDS: usize = 4;
 
-pub const DEFAULT_HASHER: HumanHasher<'static> =
+pub const DEFAULT_HASHER: HumanHasher<'static, 'static> =
     match HumanHasher::new(DEFAULT_WORD_LIST, DEFAULT_WORDS, "-") {
         Ok(h) => h,
         Err(_) => unreachable!(),
     };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct HumanHasher<'a> {
-    wordlist: &'a [&'a str],
+pub struct HumanHasher<'w, 's> {
+    wordlist: &'w [&'w str],
     words: usize,
-    separator: &'a str,
+    separator: &'s str,
 }
 
-impl<'a> HumanHasher<'a> {
+impl<'w, 's> HumanHasher<'w, 's> {
     #[inline]
     pub const fn new(
-        wordlist: &'a [&'a str],
+        wordlist: &'w [&'w str],
         words: usize,
-        separator: &'a str,
+        separator: &'s str,
     ) -> Result<Self, Error> {
         if wordlist.len() != 256 {
             return Err(Error::WordListInvalidSize {
@@ -71,7 +71,7 @@ impl<'a> HumanHasher<'a> {
 
     #[inline]
     #[must_use]
-    pub const fn wordlist(&self) -> &'a [&'a str] {
+    pub const fn wordlist(&self) -> &'w [&'w str] {
         self.wordlist
     }
 
@@ -83,7 +83,7 @@ impl<'a> HumanHasher<'a> {
 
     #[inline]
     #[must_use]
-    pub const fn separator(&self) -> &'a str {
+    pub const fn separator(&self) -> &'s str {
         self.separator
     }
 
@@ -137,7 +137,7 @@ impl<'a> HumanHasher<'a> {
     }
 }
 
-impl Default for HumanHasher<'static> {
+impl Default for HumanHasher<'static, 'static> {
     fn default() -> Self {
         DEFAULT_HASHER
     }
