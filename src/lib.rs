@@ -32,14 +32,6 @@ impl fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-pub const DEFAULT_WORDS: usize = 4;
-
-pub const DEFAULT_HASHER: HumanHasher<'static, 'static> =
-    match HumanHasher::new(DEFAULT_WORD_LIST, DEFAULT_WORDS, "-") {
-        Ok(h) => h,
-        Err(_) => unreachable!(),
-    };
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct HumanHasher<'w, 's> {
     wordlist: &'w [&'w str],
@@ -136,6 +128,14 @@ impl<'w, 's> HumanHasher<'w, 's> {
         Ok((value, humanized))
     }
 }
+
+pub const DEFAULT_WORDS: usize = 4;
+
+pub const DEFAULT_HASHER: HumanHasher<'static, 'static> =
+    match HumanHasher::new(DEFAULT_WORD_LIST, DEFAULT_WORDS, "-") {
+        Ok(h) => h,
+        Err(_) => unreachable!(),
+    };
 
 impl Default for HumanHasher<'static, 'static> {
     fn default() -> Self {
