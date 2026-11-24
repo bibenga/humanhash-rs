@@ -25,3 +25,4 @@ rustc-ice-*.txt
 
 .DS_Store
 .devcontainer/
+.vscode/
