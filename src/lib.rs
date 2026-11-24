@@ -32,7 +32,7 @@ impl fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-const DEFAULT_WORDS: usize = 4;
+pub const DEFAULT_WORDS: usize = 4;
 
 pub const DEFAULT_HASHER: HumanHasher<'static> =
     match HumanHasher::new(DEFAULT_WORD_LIST, DEFAULT_WORDS, "-") {
