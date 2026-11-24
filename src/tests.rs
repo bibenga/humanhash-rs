@@ -1,5 +1,3 @@
-use std::num::NonZeroUsize;
-
 use crate::{DEFAULT_HASHER, DEFAULT_WORD_LIST, Error, HumanHasher};
 
 #[test]
@@ -41,18 +39,32 @@ fn compress_rejects_input_shorter_than_words() {
 }
 
 #[test]
-fn humanize_reports_index_missing_from_word_list() {
-    let words = NonZeroUsize::new(1).unwrap();
-    let hasher = HumanHasher::new(&["only"], words, "-");
-    assert_eq!(
-        hasher.humanize(&[7]),
-        Err(Error::WordIndexOutOfRange { index: 7 })
-    );
+fn new_rejects_too_short_word_list() {
+    let result = HumanHasher::new(&["only"], 1, "-");
+    assert!(matches!(
+        result,
+        Err(Error::WordListInvalidSize { size: 1 })
+    ));
+}
+
+#[test]
+fn new_rejects_too_long_word_list() {
+    let list = vec!["w"; 257];
+    let result = HumanHasher::new(&list, 1, "-");
+    assert!(matches!(
+        result,
+        Err(Error::WordListInvalidSize { size: 257 })
+    ));
+}
+
+#[test]
+fn new_rejects_zero_words() {
+    let result = HumanHasher::new(DEFAULT_WORD_LIST, 0, "-");
+    assert!(matches!(result, Err(Error::ZeroWords)));
 }
 
 #[test]
 fn humanize_uses_custom_separator() {
-    let words = NonZeroUsize::new(2).unwrap();
-    let hasher = HumanHasher::new(DEFAULT_WORD_LIST, words, "_");
+    let hasher = HumanHasher::new(DEFAULT_WORD_LIST, 2, "_").unwrap();
     assert_eq!(hasher.humanize(&[1, 2]), Ok("alabama_alanine".to_owned()));
 }

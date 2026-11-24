@@ -40,20 +40,24 @@ To change the number of words, the separator or the word list, create a `HumanHa
 ```rust
 use humanhash::{HumanHasher, DEFAULT_WORD_LIST};
 
-let hasher = HumanHasher::new(DEFAULT_WORD_LIST, 2, "_");
+let hasher = HumanHasher::new(DEFAULT_WORD_LIST, 2, "_")?;
 assert_eq!(hasher.humanize(&[1, 2, 3, 4])?, "alaska_april");
 ```
 
 The word list is borrowed, so it can also be loaded from a file, as long as it outlives the hasher.
-It must contain 256 words (one per byte value), otherwise `humanize` returns `Error::WordIndexOutOfRange`.
+It must contain exactly 256 words (one per byte value), otherwise `HumanHasher::new` returns
+`Error::WordListInvalidSize`. The number of words must be greater than zero.
 
 ### Errors
 
+`HumanHasher::new` returns `humanhash::Error`:
+
+- `WordListInvalidSize` - the word list does not contain exactly 256 words;
+- `ZeroWords` - the hasher was configured with zero words.
+
 `humanize` returns `humanhash::Error`:
 
-- `ZeroWords` - the hasher was configured with zero words;
-- `TooFewInputBytes` - the input has fewer bytes than the requested number of words;
-- `WordIndexOutOfRange` - the word list is shorter than 256 words.
+- `TooFewInputBytes` - the input has fewer bytes than the requested number of words.
 
 ## Command line
 
